@@ -3,8 +3,11 @@ package com.eontecnologia.desafioanotaiai.controllers;
 import com.eontecnologia.desafioanotaiai.domain.category.Category;
 import com.eontecnologia.desafioanotaiai.domain.category.CategoryDTO;
 import com.eontecnologia.desafioanotaiai.services.CategoryService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")
@@ -25,5 +28,11 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getAll(){
         List<Category> categories = this.service.getAll();
         return ResponseEntity.ok().body(categories);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> update(@PathParam("id") String id, @RequestBody CategoryDTO categoryData){
+        Category updatedCategory = this.service.update(id, categoryData);
+        return ResponseEntity.ok().body(updatedCategory);
     }
 }
