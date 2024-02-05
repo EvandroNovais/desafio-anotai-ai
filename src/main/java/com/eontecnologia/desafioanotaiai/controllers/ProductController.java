@@ -1,6 +1,7 @@
 package com.eontecnologia.desafioanotaiai.controllers;
 
 import com.eontecnologia.desafioanotaiai.domain.product.Product;
+import com.eontecnologia.desafioanotaiai.domain.product.ProductDTO;
 import com.eontecnologia.desafioanotaiai.services.ProductService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> insert(@RequestBody ProductDTO productData){
-        Product newCategory = this.service.insert(productData);
+        Product newProduct = this.service.insert(productData);
         return ResponseEntity.ok().body(newProduct);
     }
 

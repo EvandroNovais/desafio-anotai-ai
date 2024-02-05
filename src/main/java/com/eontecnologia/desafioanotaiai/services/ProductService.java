@@ -1,9 +1,10 @@
 package com.eontecnologia.desafioanotaiai.services;
 
 import com.eontecnologia.desafioanotaiai.domain.category.Category;
-import com.eontecnologia.desafioanotaiai.domain.category.CategoryDTO;
 import com.eontecnologia.desafioanotaiai.domain.category.exceptions.CategoryNotFoundException;
 import com.eontecnologia.desafioanotaiai.domain.product.Product;
+import com.eontecnologia.desafioanotaiai.domain.product.ProductDTO;
+import com.eontecnologia.desafioanotaiai.domain.product.exceptions.ProductNotFoundException;
 import com.eontecnologia.desafioanotaiai.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,11 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-    public Category insert(CategoryDTO categoryData){
+    public Product insert(ProductDTO productData){
+        Category category = this.categoryService.getById(productData.categoryId())
+                .orElseThrow(CategoryNotFoundException::new);
         Product newProduct = new Product(productData);
+        newProduct.setCategory(category);
         this.productRepository.save(newProduct);
         return newProduct;
     }
@@ -29,11 +33,16 @@ public class ProductService {
         return this.productRepository.findAll();
     }
 
-    public Product update(String id, CategoryDTO categoryData){
+    public Product update(String id, ProductDTO productData){
         Product product = this.productRepository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
-        if(!categoryData.title().isEmpty()) product.setTitle(categoryData.title());
-        if(!categoryData.description().isEmpty()) product.setDescription(categoryData.description());
+                .orElseThrow(ProductNotFoundException::new);
+
+        this.categoryService.getById(productData.categoryId())
+                .ifPresent(product::setCategory);
+
+        if(!productData.title().isEmpty()) product.setTitle(productData.title());
+        if(!productData.description().isEmpty()) product.setDescription(productData.description());
+        if(!(productData.price() == null)) product.setPrice(productData.price());
 
         this.productRepository.save(product);
 
@@ -41,8 +50,8 @@ public class ProductService {
     }
 
     public void delete(String id) {
-        Category product = this.productRepository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+        Product product = this.productRepository.findById(id)
+                .orElseThrow(ProductNotFoundException::new);
         this.productRepository.delete(product);
     }
 }

@@ -1,5 +1,6 @@
 package com.eontecnologia.desafioanotaiai.domain.product;
 
+import com.eontecnologia.desafioanotaiai.domain.category.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +16,14 @@ public class Product {
     private String description;
     private String ownerId;
     private Integer price;
-    private String category;
+    private Category category;
+
+    public Product(ProductDTO data){
+        this.title = data.title();
+        this.description = data.description();
+        this.ownerId = data.ownerId();
+        this.price = data.price();
+
+    }
+
 }
