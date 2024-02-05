@@ -1,4 +1,4 @@
 package com.eontecnologia.desafioanotaiai.domain.category.exceptions;
 
-public class CategoryNotFoundException {
+public class CategoryNotFoundException extends RuntimeException{
 }
