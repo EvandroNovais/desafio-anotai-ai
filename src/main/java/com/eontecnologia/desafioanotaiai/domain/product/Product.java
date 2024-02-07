@@ -23,7 +23,6 @@ public class Product {
         this.description = data.description();
         this.ownerId = data.ownerId();
         this.price = data.price();
-
     }
 
 }
