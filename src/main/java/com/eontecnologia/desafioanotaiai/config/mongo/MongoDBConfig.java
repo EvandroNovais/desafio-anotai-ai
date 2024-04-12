@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 public class MongoDBConfig {
 
     public MongoDatabaseFactory mongoConfigure(){
-        return new SimpleMongoClientDatabaseFactory("mongodb+srv://anotai:7431282@cluster0.lbgp26w.mongodb.net/product-catalog");
+        return new SimpleMongoClientDatabaseFactory(System.getEnv("DB_CONNECTION"));
     }
     @Bean
     public MongoTemplate mongoTemplate(){
